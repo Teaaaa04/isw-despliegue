@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from src.models import (
@@ -12,6 +13,15 @@ from src.models import (
 from src import service
 
 app = FastAPI(title="EcoHarmonyPark", version="1.0.0")
+
+# --- Configuración de CORS ---
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # o reemplazá "*" por ["https://tu-frontend.vercel.app"] en producción
+    allow_credentials=True,
+    allow_methods=["*"],  # permite todos los métodos: GET, POST, PUT, DELETE, etc.
+    allow_headers=["*"],  # permite todos los headers
+)
 
 # Endpoint para listar todas las actividades disponibles
 @app.get("/actividades")
